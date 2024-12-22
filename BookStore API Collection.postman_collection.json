@@ -1,0 +1,981 @@
+{
+	"info": {
+		"_postman_id": "469af610-62ab-4df6-8233-b234013e682c",
+		"name": "BookStore API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38970804"
+	},
+	"item": [
+		{
+			"name": "User Creation Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"    pm.test(\"Status code is 201\", function () {",
+							"        pm.response.to.have.status(201);",
+							"    });",
+							"pm.test(\"Response has valid body structure\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"userID\").that.is.a(\"string\");",
+							"    pm.expect(jsonData).to.have.property(\"username\").that.is.a(\"string\");",
+							"    pm.expect(jsonData).to.have.property(\"books\").that.is.an(\"array\");",
+							"    if (jsonData.books.length > 0) {",
+							"        jsonData.books.forEach(book => {",
+							"            pm.expect(book).to.have.property(\"isbn\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"title\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"subTitle\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"author\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"publish_date\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"publisher\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"pages\").that.is.a(\"number\");",
+							"            pm.expect(book).to.have.property(\"description\").that.is.a(\"string\");",
+							"            pm.expect(book).to.have.property(\"website\").that.is.a(\"string\");",
+							"        });",
+							"    }",
+							"         pm.environment.set(\"userID\", jsonData.userID)",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomUserName = `user_${Math.random().toString(36).substring(2, 10)}`;",
+							"const randomPassword = `Passw@rd${Math.floor(Math.random() * 1000)}`;",
+							"pm.environment.set(\"userName\", randomUserName);",
+							"pm.environment.set(\"password\", randomPassword);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Account/v1/User",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Account",
+						"v1",
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token Generation  Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response body structure is valid\", function () {",
+							"    pm.expect(jsonData).to.have.property(\"token\");",
+							"    pm.expect(jsonData.token).to.be.a(\"string\");",
+							"    pm.expect(jsonData.status).to.eql(\"Success\");",
+							"    pm.expect(jsonData.result).to.eql(\"User authorized successfully.\");",
+							"});",
+							"pm.test(\"Token expiration is in correct format\", function () {",
+							"    pm.expect(jsonData).to.have.property(\"expires\");",
+							"    let expirationDate = new Date(jsonData.expires);",
+							"    pm.expect(expirationDate.toString()).not.to.eql(\"Invalid Date\");",
+							"pm.environment.set(\"token\",jsonData.token)",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Account/v1/GenerateToken",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Account",
+						"v1",
+						"GenerateToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Existing User Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is true\", function () {",
+							"    pm.expect(jsonData).to.eql(true);",
+							"});",
+							"pm.test(\"Response type is boolean\", function () {",
+							"    pm.expect(jsonData).to.be.a(\"boolean\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{userName}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Account/v1/Authorized",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Account",
+						"v1",
+						"Authorized"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search User by UserId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has valid body structure \", function () {",
+							"    const jsonData = pm.response.json(); ",
+							"    pm.expect(jsonData).to.have.property(\"userId\").that.is.a(\"string\");",
+							"    pm.expect(jsonData).to.have.property(\"username\").that.is.a(\"string\");",
+							"    pm.expect(jsonData).to.have.property(\"books\").that.is.an(\"array\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Fields should match with currently logged in user\", function () {",
+							"    const jsonData = pm.response.json(); ",
+							"    const userID = pm.environment.get(\"userID\");",
+							"    const userName = pm.environment.get(\"userName\");",
+							"    pm.expect(jsonData.userId).to.eql(userID);",
+							"    pm.expect(jsonData.username).to.eql(userName);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Account/v1/User/:UserId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Account",
+						"v1",
+						"User",
+						":UserId"
+					],
+					"variable": [
+						{
+							"key": "UserId",
+							"value": "{{userID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Books Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"pm.test(\"Books array has required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.books).to.be.an('array').that.is.not.empty;",
+							"    responseData.books.forEach(function(book) {",
+							"        pm.expect(book).to.have.property('isbn').that.is.a('string');",
+							"        pm.expect(book).to.have.property('title').that.is.a('string');",
+							"        pm.expect(book).to.have.property('subTitle').that.is.a('string');",
+							"        pm.expect(book).to.have.property('author').that.is.a('string');",
+							"        pm.expect(book).to.have.property('publish_date').that.is.a('string');",
+							"        pm.expect(book).to.have.property('publisher').that.is.a('string');",
+							"        pm.expect(book).to.have.property('pages').that.is.a('number');",
+							"        pm.expect(book).to.have.property('description').that.is.a('string');",
+							"        pm.expect(book).to.have.property('website').that.is.a('string');",
+							"    });",
+							"    pm.environment.set(\"testISBN\",responseData.books[0].isbn)",
+							"    pm.environment.set(\"testISBN2\",responseData.books[3].isbn)",
+							"    pm.environment.set(\"testISBN3\",responseData.books[1].isbn)",
+							"",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im9udXJndXZlbnNveSIsInBhc3N3b3JkIjoiUGFyYW1jb21AMTIzIiwiaWF0IjoxNzM0NTk5MDE1fQ.GrjPQfEf_TWitUvvPrkFQLJpxIfOjPzytYLek2PnLq0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Books",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Book By ISBN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body should correct structure\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"        pm.expect(jsonData).to.have.property('isbn').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('title').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('subTitle').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('author').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('publish_date').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('publisher').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('pages').that.is.a('number');",
+							"        pm.expect(jsonData).to.have.property('description').that.is.a('string');",
+							"        pm.expect(jsonData).to.have.property('website').that.is.a('string');",
+							"    });",
+							"",
+							"pm.test(\"Verify properties from testISBN\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.isbn).to.eql(\"9781449325862\");",
+							"    pm.expect(jsonData.title).to.eql(\"Git Pocket Guide\");",
+							"    pm.expect(jsonData.subTitle).to.eql(\"A Working Introduction\");",
+							"    pm.expect(jsonData.author).to.eql(\"Richard E. Silverman\");",
+							"    pm.expect(jsonData.publish_date).to.eql(\"2020-06-04T08:48:39.000Z\");",
+							"    pm.expect(jsonData.publisher).to.eql(\"O'Reilly Media\");",
+							"    pm.expect(jsonData.pages).to.eql(234);",
+							"    pm.expect(jsonData.description).to.eql(\"This pocket guide is the perfect on-the-job companion to Git, the distributed version control system. It provides a compact, readable introduction to Git for new users, as well as a reference to common commands and procedures for those of you with Git exp\");",
+							"    pm.expect(jsonData.website).to.eql(\"http://chimera.labs.oreilly.com/books/1230000000561/index.html\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Book?ISBN={{testISBN}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Book"
+					],
+					"query": [
+						{
+							"key": "ISBN",
+							"value": "{{testISBN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Give an user new Book Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response body structure is valid\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    ",
+							"    // Get the ISBN from the environment variable",
+							"    const ISBN = pm.environment.get(\"testISBN\");",
+							"    ",
+							"    // Ensure the 'books' property exists and is an array",
+							"    pm.expect(jsonData).to.have.property(\"books\");",
+							"    pm.expect(jsonData.books).to.be.an('array').that.is.not.empty;",
+							"    ",
+							"    // Loop through the books array and check if any book's ISBN matches the stored value",
+							"    let foundISBN = false;",
+							"    jsonData.books.forEach(function(book) {",
+							"        if (book.isbn === ISBN) {",
+							"            foundISBN = true;",
+							"        }",
+							"    });",
+							"    ",
+							"    // Assert that the ISBN was found in the books array",
+							"    pm.expect(foundISBN).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": \"{{userID}}\",\n  \"collectionOfIsbns\": [\n    {\n       \"isbn\": \"{{testISBN}}\"\n\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Books",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Give an user another Book Request Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response body structure is valid\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    ",
+							"    // Get the ISBN from the environment variable",
+							"    const ISBN = pm.environment.get(\"testISBN2\");",
+							"    ",
+							"    // Ensure the 'books' property exists and is an array",
+							"    pm.expect(jsonData).to.have.property(\"books\");",
+							"    pm.expect(jsonData.books).to.be.an('array').that.is.not.empty;",
+							"    ",
+							"    // Loop through the books array and check if any book's ISBN matches the stored value",
+							"    let foundISBN = false;",
+							"    jsonData.books.forEach(function(book) {",
+							"        if (book.isbn === ISBN) {",
+							"            foundISBN = true;",
+							"        }",
+							"    });",
+							"    ",
+							"    // Assert that the ISBN was found in the books array",
+							"    pm.expect(foundISBN).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": \"{{userID}}\",\n  \"collectionOfIsbns\": [\n    {\n       \"isbn\": \"{{testISBN2}}\"\n\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Books",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200); ",
+							"});",
+							"pm.test(\"Response body structure is valid\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"userId\");",
+							"    pm.expect(jsonData).to.have.property(\"username\");",
+							"    pm.expect(jsonData.books).to.be.an('array').that.is.not.empty;",
+							"    jsonData.books.forEach(function(book) {",
+							"        pm.expect(book).to.have.property('isbn').that.is.a('string');",
+							"        pm.expect(book).to.have.property('title').that.is.a('string');",
+							"        pm.expect(book).to.have.property('subTitle').that.is.a('string');",
+							"        pm.expect(book).to.have.property('author').that.is.a('string');",
+							"        pm.expect(book).to.have.property('publish_date').that.is.a('string');",
+							"        pm.expect(book).to.have.property('publisher').that.is.a('string');",
+							"        pm.expect(book).to.have.property('pages').that.is.a('number');",
+							"        pm.expect(book).to.have.property('description').that.is.a('string');",
+							"        pm.expect(book).to.have.property('website').that.is.a('string');",
+							"    });",
+							"    pm.environment.set(\"testISBN\", jsonData.books[0].isbn);",
+							"});",
+							"pm.test(\"Books array contains the expected ISBN\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    const expectedISBN = pm.environment.get(\"testISBN\");",
+							"    let foundISBN = false;",
+							"    jsonData.books.forEach(function(book) {",
+							"        if (book.isbn === expectedISBN) {",
+							"            foundISBN = true;",
+							"        }",
+							"    });",
+							"    pm.expect(foundISBN).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": \"{{userID}}\",\n  \"isbn\": \"{{testISBN3}}\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Books/:ISBN",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Books",
+						":ISBN"
+					],
+					"variable": [
+						{
+							"key": "ISBN",
+							"value": "{{testISBN2}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book From User's Collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 204\", function () {",
+							"    pm.expect(pm.response.code).to.equal(204);",
+							"});",
+							"",
+							"pm.test(\"Body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"isbn\": \"{{testISBN3}}\",\n  \"userId\": \"{{userID}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Book",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Books From User's Collection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/BookStore/v1/Books/?UserId={{userID}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"BookStore",
+						"v1",
+						"Books",
+						""
+					],
+					"query": [
+						{
+							"key": "UserId",
+							"value": "{{userID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Existing User Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"pm.test(\"Body is empty\", function () {",
+							"    pm.expect(pm.response.text()).to.be.empty;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/Account/v1/User/:UserId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"Account",
+						"v1",
+						"User",
+						":UserId"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "UserId",
+							"value": "{{userID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://demoqa.com"
+		}
+	]
+}
