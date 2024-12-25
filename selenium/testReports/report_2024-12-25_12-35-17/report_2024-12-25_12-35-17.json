@@ -1,0 +1,273 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-12-25T09:35:21.418Z",
+    "end": "2024-12-25T09:35:38.914Z",
+    "duration": 17496,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "934d663e-21d5-4736-bc77-5bfd0459346f",
+      "title": "",
+      "fullFile": "C:\\Users\\Alperen\\Desktop\\BankingAutomationTest\\test.js",
+      "file": "\\test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "663fe736-16f3-4a56-82a2-1cab058d9615",
+          "title": "Demoqa books Testing",
+          "fullFile": "C:\\Users\\Alperen\\Desktop\\BankingAutomationTest\\test.js",
+          "file": "\\test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"before all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 3346,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser('chrome').build();\nawait driver.manage().window().maximize();\nawait driver.get(\"https://demoqa.com/books\")\nconsole.log(\"Driver has started.\")\nloginPage = new LoginPage(driver);\nhomePage = new HomePage(driver);",
+              "err": {},
+              "uuid": "a1fc3182-8ce0-4aa7-8b8e-ba975af23c46",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"after all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 160,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if(driver){\n  await driver.quit()\n  console.log(\"Driver quited\")\n}",
+              "err": {},
+              "uuid": "a3586231-52d2-4995-8289-af83725d8a8b",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"after each\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if(this.currentTest.state===\"failed\"){\n  const date = new Date();\n  const timestamp = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;\n  const screenShot = await driver.takeScreenshot();\n  const screenShotPath = path.join(__dirname,\"./testReports/ScreenShots\", `${this.currentTest.title}${timestamp}.png`)\n  \n  fs.writeFileSync(screenShotPath,screenShot,\"base64\");\n  addContext(this,\"Test Fail Screenshot\")\n  addContext(this,screenShotPath)\n  console.log(screenShotPath)\n}",
+              "err": {},
+              "uuid": "6abf7a2e-67fd-43d7-a471-1a0716700a89",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Login with invalid credentials ",
+              "fullTitle": "Demoqa books Testing Login with invalid credentials ",
+              "timedOut": false,
+              "duration": 7316,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await loginPage.login(\"onurguvensoy\",\"Paramcom@123\")\nawait driver.sleep(5000);",
+              "err": {},
+              "uuid": "b82d8bdc-3bae-4115-914a-b404f902c425",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Titles",
+              "fullTitle": "Demoqa books Testing Get Book Titles",
+              "timedOut": false,
+              "duration": 218,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const bookTitles = await homePage.getBookTitles();\nassert.strictEqual(bookTitles.length, 8);",
+              "err": {},
+              "uuid": "8f55e88d-7725-499f-8594-425e1c2f8245",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get First Book",
+              "fullTitle": "Demoqa books Testing Get First Book",
+              "timedOut": false,
+              "duration": 358,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const firstBook = await homePage.getFirstBook();\nconsole.log(firstBook)\nassert.strictEqual(firstBook, \"Git Pocket Guide\");",
+              "err": {},
+              "uuid": "ed60ccdd-bea0-4122-a7eb-f544a5670d10",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Details",
+              "fullTitle": "Demoqa books Testing Get Book Details",
+              "timedOut": false,
+              "duration": 5607,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const isbnValue = await homePage.getBookDetails();\nconsole.log(isbnValue)\nassert.strictEqual(isbnValue, \"9781449325862\");",
+              "err": {},
+              "uuid": "fd6c7397-ac92-4f96-be4c-806071cd0f06",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete All Books",
+              "fullTitle": "Demoqa books Testing Delete All Books",
+              "timedOut": false,
+              "duration": 216,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.deleteAllBooks();",
+              "err": {},
+              "uuid": "80d879c1-5a08-44ab-911e-81b0e6b77693",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete Account",
+              "fullTitle": "Demoqa books Testing Delete Account",
+              "timedOut": false,
+              "duration": 225,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.deleteAccount();",
+              "err": {},
+              "uuid": "58e0ef52-364b-4d04-89d2-c25e0e405616",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Logout ",
+              "fullTitle": "Demoqa books Testing Logout ",
+              "timedOut": false,
+              "duration": 33,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.logout();",
+              "err": {},
+              "uuid": "594a9ce5-0815-4f76-bd26-3bec87c34ba7",
+              "parentUUID": "663fe736-16f3-4a56-82a2-1cab058d9615",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b82d8bdc-3bae-4115-914a-b404f902c425",
+            "8f55e88d-7725-499f-8594-425e1c2f8245",
+            "ed60ccdd-bea0-4122-a7eb-f544a5670d10",
+            "fd6c7397-ac92-4f96-be4c-806071cd0f06",
+            "80d879c1-5a08-44ab-911e-81b0e6b77693",
+            "58e0ef52-364b-4d04-89d2-c25e0e405616",
+            "594a9ce5-0815-4f76-bd26-3bec87c34ba7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13973,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report_2024-12-25_12-35-17.html",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "testReports/report_2024-12-25_12-35-17",
+        "reportFilename": "report_2024-12-25_12-35-17.html"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
