@@ -1,0 +1,299 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 1,
+    "pending": 0,
+    "failures": 5,
+    "start": "2024-12-25T09:54:21.903Z",
+    "end": "2024-12-25T09:54:57.732Z",
+    "duration": 35829,
+    "testsRegistered": 7,
+    "passPercent": 14.285714285714285,
+    "pendingPercent": 0,
+    "other": 1,
+    "hasOther": true,
+    "skipped": 1,
+    "hasSkipped": true
+  },
+  "results": [
+    {
+      "uuid": "40fd4271-9c92-4a01-8d1e-9bfce4c463c6",
+      "title": "",
+      "fullFile": "/Users/onur/postman-test/selenium/test.js",
+      "file": "/test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+          "title": "Demoqa books Testing",
+          "fullFile": "/Users/onur/postman-test/selenium/test.js",
+          "file": "/test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"before all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 7658,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser('chrome').build();\nawait driver.manage().window().maximize();\nawait driver.get(\"https://demoqa.com/books\")\nconsole.log(\"Driver has started.\")\nloginPage = new LoginPage(driver);\nhomePage = new HomePage(driver);",
+              "err": {},
+              "uuid": "65c43f15-af9a-4aa7-b694-bc0f2d0108a0",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"after all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 55,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if(driver){\n  await driver.quit()\n  console.log(\"Driver quited\")\n}",
+              "err": {},
+              "uuid": "acac9e63-9dca-4ff2-8e9e-796093a365a8",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook for \"Delete Account\"",
+              "fullTitle": "Demoqa books Testing \"after each\" hook for \"Delete Account\"",
+              "timedOut": false,
+              "duration": 1,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "if(this.currentTest.state===\"failed\"){\n  const date = new Date();\n  const timestamp = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;\n  const screenShot = await driver.takeScreenshot();\n  const screenShotPath = path.join(__dirname,\"./testReports/ScreenShots\", `${this.currentTest.title}${timestamp}.png`)\n  \n  fs.writeFileSync(screenShotPath,screenShot,\"base64\");\n  addContext(this,\"Test Fail Screenshot\")\n  addContext(this,screenShotPath)\n  console.log(screenShotPath)\n}",
+              "err": {
+                "message": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=131.0.6778.205)",
+                "estack": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=131.0.6778.205)\n    at Object.throwDecodedError (node_modules/selenium-webdriver/lib/error.js:521:15)\n    at parseHttpResponse (node_modules/selenium-webdriver/lib/http.js:514:13)\n    at Executor.execute (node_modules/selenium-webdriver/lib/http.js:446:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:744:17)\n    at async Context.<anonymous> (test.js:84:26)",
+                "diff": null
+              },
+              "uuid": "67d62c41-6aa9-4eca-9d86-b19c6ca88df5",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Login with invalid credentials ",
+              "fullTitle": "Demoqa books Testing Login with invalid credentials ",
+              "timedOut": false,
+              "duration": 5346,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await loginPage.login(\"onurguvensoy\",\"Paramcom@123\")\nawait driver.sleep(5000);",
+              "err": {},
+              "uuid": "778f5719-e497-4f81-b6e8-dce3ed6d226d",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Titles",
+              "fullTitle": "Demoqa books Testing Get Book Titles",
+              "timedOut": false,
+              "duration": 73,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Get Book Titles20241225125434.png\"\n]",
+              "code": "const bookTitles = await homePage.getBookTitles();\nassert.strictEqual(bookTitles.length, 8);",
+              "err": {
+                "message": "AssertionError: Expected values to be strictly equal:\n\n0 !== 8\n",
+                "estack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 8\n\n    at Context.<anonymous> (test.js:50:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": "- 0\n+ 8\n"
+              },
+              "uuid": "af4eb33a-8617-4a9c-8051-7d3a79765a88",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get First Book",
+              "fullTitle": "Demoqa books Testing Get First Book",
+              "timedOut": false,
+              "duration": 10111,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Get First Book20241225125445.png\"\n]",
+              "code": "const firstBook = await homePage.getFirstBook();\nassert.strictEqual(firstBook, \"Git Pocket Guide\");",
+              "err": {
+                "message": "TimeoutError: Waiting for element to be located By(css selector, .rt-tr-group .rt-td .action-buttons span a)\nWait timed out after 10060ms",
+                "estack": "TimeoutError: Waiting for element to be located By(css selector, .rt-tr-group .rt-td .action-buttons span a)\nWait timed out after 10060ms\n    at /Users/onur/postman-test/selenium/node_modules/selenium-webdriver/lib/webdriver.js:923:22\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": null
+              },
+              "uuid": "20869b4c-6e98-4ed1-913f-67f8d0f7d6b5",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Details",
+              "fullTitle": "Demoqa books Testing Get Book Details",
+              "timedOut": false,
+              "duration": 9,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Get Book Details20241225125445.png\"\n]",
+              "code": "const isbnValue = await homePage.getBookDetails();\nassert.strictEqual(isbnValue, \"9781449325862\");",
+              "err": {
+                "message": "NoSuchElementError: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".rt-tr-group .rt-td .action-buttons span a\"}\n  (Session info: chrome=131.0.6778.205)",
+                "estack": "NoSuchElementError: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\".rt-tr-group .rt-td .action-buttons span a\"}\n  (Session info: chrome=131.0.6778.205)\n    at Object.throwDecodedError (node_modules/selenium-webdriver/lib/error.js:521:15)\n    at parseHttpResponse (node_modules/selenium-webdriver/lib/http.js:514:13)\n    at Executor.execute (node_modules/selenium-webdriver/lib/http.js:446:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:744:17)\n    at async toWireValue (node_modules/selenium-webdriver/lib/webdriver.js:148:15)\n    at async /Users/onur/postman-test/selenium/node_modules/selenium-webdriver/lib/webdriver.js:194:16\n    at async forEachKey (node_modules/selenium-webdriver/lib/webdriver.js:188:9)\n    at async convertKeys (node_modules/selenium-webdriver/lib/webdriver.js:193:3)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:742:22)\n    at async HomePage.getBookDetails (pages/homePage.js:34:9)\n    at async Context.<anonymous> (test.js:60:23)",
+                "diff": null
+              },
+              "uuid": "2767512f-b370-4952-994d-2f42f98b1124",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete All Books",
+              "fullTitle": "Demoqa books Testing Delete All Books",
+              "timedOut": false,
+              "duration": 10080,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Delete All Books20241225125456.png\"\n]",
+              "code": "await homePage.deleteAllBooks();",
+              "err": {
+                "message": "TimeoutError: Waiting for element to be located By(xpath, //button[text()=\"Delete All Books\"])\nWait timed out after 10076ms",
+                "estack": "TimeoutError: Waiting for element to be located By(xpath, //button[text()=\"Delete All Books\"])\nWait timed out after 10076ms\n    at /Users/onur/postman-test/selenium/node_modules/selenium-webdriver/lib/webdriver.js:923:22\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": null
+              },
+              "uuid": "692e2eaf-c209-4778-85da-aa22e3f19de0",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete Account",
+              "fullTitle": "Demoqa books Testing Delete Account",
+              "timedOut": false,
+              "duration": 837,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.deleteAccount();",
+              "err": {
+                "message": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=131.0.6778.205)",
+                "estack": "NoSuchWindowError: no such window: target window already closed\nfrom unknown error: web view not found\n  (Session info: chrome=131.0.6778.205)\n    at Object.throwDecodedError (node_modules/selenium-webdriver/lib/error.js:521:15)\n    at parseHttpResponse (node_modules/selenium-webdriver/lib/http.js:514:13)\n    at Executor.execute (node_modules/selenium-webdriver/lib/http.js:446:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:744:17)\n    at async Driver.findElements (node_modules/selenium-webdriver/lib/webdriver.js:1067:17)",
+                "diff": null
+              },
+              "uuid": "b1b047b6-f406-4b22-910b-84460737d3d0",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Logout ",
+              "fullTitle": "Demoqa books Testing Logout ",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.logout();",
+              "err": {},
+              "uuid": "7e23e7c4-1f95-40de-9ab3-d056645b64b4",
+              "parentUUID": "3209d63c-fe08-4fab-9e41-8111524b4e51",
+              "isHook": false,
+              "skipped": true
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "778f5719-e497-4f81-b6e8-dce3ed6d226d"
+          ],
+          "failures": [
+            "af4eb33a-8617-4a9c-8051-7d3a79765a88",
+            "20869b4c-6e98-4ed1-913f-67f8d0f7d6b5",
+            "2767512f-b370-4952-994d-2f42f98b1124",
+            "692e2eaf-c209-4778-85da-aa22e3f19de0",
+            "b1b047b6-f406-4b22-910b-84460737d3d0"
+          ],
+          "pending": [],
+          "skipped": [
+            "7e23e7c4-1f95-40de-9ab3-d056645b64b4"
+          ],
+          "duration": 26456,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report_2024-12-25_12-54-21.html",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "testReports/report_2024-12-25_12-54-21",
+        "reportFilename": "report_2024-12-25_12-54-21.html"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 5,
+    "pending": 0,
+    "failures": 2,
+    "start": "2024-12-25T09:53:31.496Z",
+    "end": "2024-12-25T09:53:50.382Z",
+    "duration": 18886,
+    "testsRegistered": 7,
+    "passPercent": 71.42857142857143,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "19718eb8-9398-424c-bde5-96d2814c7750",
+      "title": "",
+      "fullFile": "/Users/onur/postman-test/selenium/test.js",
+      "file": "/test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "df1221c5-9639-4539-b491-55b76ac3b010",
+          "title": "Demoqa books Testing",
+          "fullFile": "/Users/onur/postman-test/selenium/test.js",
+          "file": "/test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"before all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 10205,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await new Builder().forBrowser('chrome').build();\nawait driver.manage().window().maximize();\nawait driver.get(\"https://demoqa.com/books\")\nconsole.log(\"Driver has started.\")\nloginPage = new LoginPage(driver);\nhomePage = new HomePage(driver);",
+              "err": {},
+              "uuid": "688d9cdc-a1ab-43d0-8a58-9feac94b0018",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"after all\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 139,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if(driver){\n  await driver.quit()\n  console.log(\"Driver quited\")\n}",
+              "err": {},
+              "uuid": "94a8f421-8f7b-4e24-9809-348a92353b98",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook in \"Demoqa books Testing\"",
+              "fullTitle": "Demoqa books Testing \"after each\" hook in \"Demoqa books Testing\"",
+              "timedOut": false,
+              "duration": 426,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "if(this.currentTest.state===\"failed\"){\n  const date = new Date();\n  const timestamp = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;\n  const screenShot = await driver.takeScreenshot();\n  const screenShotPath = path.join(__dirname,\"./testReports/ScreenShots\", `${this.currentTest.title}${timestamp}.png`)\n  \n  fs.writeFileSync(screenShotPath,screenShot,\"base64\");\n  addContext(this,\"Test Fail Screenshot\")\n  addContext(this,screenShotPath)\n  console.log(screenShotPath)\n}",
+              "err": {},
+              "uuid": "1135cb41-cfd4-4cd6-a557-6b75776aa794",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Login with invalid credentials ",
+              "fullTitle": "Demoqa books Testing Login with invalid credentials ",
+              "timedOut": false,
+              "duration": 5327,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await loginPage.login(\"onurguvensoy\",\"Paramcom@123\")\nawait driver.sleep(5000);",
+              "err": {},
+              "uuid": "8354c6ad-88f1-4bf5-9af0-d72ec9660866",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Titles",
+              "fullTitle": "Demoqa books Testing Get Book Titles",
+              "timedOut": false,
+              "duration": 1055,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Get Book Titles20241225125348.png\"\n]",
+              "code": "const bookTitles = await homePage.getBookTitles();\nassert.strictEqual(bookTitles.length, 8);",
+              "err": {
+                "message": "ElementClickInterceptedError: element click intercepted: Element <span class=\"text\">...</span> is not clickable at point (125, 765). Other element would receive the click: <div id=\"fixedban\" style=\"width:100%;margin:auto;text-align:center;float:none;overflow:hidden;display:scroll;position:fixed;bottom:0;z-index:9999999\">...</div>\n  (Session info: chrome=131.0.6778.205)",
+                "estack": "ElementClickInterceptedError: element click intercepted: Element <span class=\"text\">...</span> is not clickable at point (125, 765). Other element would receive the click: <div id=\"fixedban\" style=\"width:100%;margin:auto;text-align:center;float:none;overflow:hidden;display:scroll;position:fixed;bottom:0;z-index:9999999\">...</div>\n  (Session info: chrome=131.0.6778.205)\n    at Object.throwDecodedError (node_modules/selenium-webdriver/lib/error.js:521:15)\n    at parseHttpResponse (node_modules/selenium-webdriver/lib/http.js:514:13)\n    at Executor.execute (node_modules/selenium-webdriver/lib/http.js:446:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:744:17)\n    at async HomePage.getBookTitles (pages/homePage.js:23:9)\n    at async Context.<anonymous> (test.js:49:24)",
+                "diff": null
+              },
+              "uuid": "8e4432c2-1950-454a-97d5-8263cabbddfe",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get First Book",
+              "fullTitle": "Demoqa books Testing Get First Book",
+              "timedOut": false,
+              "duration": 472,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const firstBook = await homePage.getFirstBook();\nassert.strictEqual(firstBook, \"Git Pocket Guide\");",
+              "err": {},
+              "uuid": "f6bd23bf-5592-4377-a264-ba39d9c8eb8f",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Get Book Details",
+              "fullTitle": "Demoqa books Testing Get Book Details",
+              "timedOut": false,
+              "duration": 457,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const isbnValue = await homePage.getBookDetails();\nassert.strictEqual(isbnValue, \"9781449325862\");",
+              "err": {},
+              "uuid": "e2c09e1e-fd6d-4b99-a79b-d1db361e37d3",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete All Books",
+              "fullTitle": "Demoqa books Testing Delete All Books",
+              "timedOut": false,
+              "duration": 95,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.deleteAllBooks();",
+              "err": {},
+              "uuid": "e8f4dabf-58cb-4821-8b1f-3add61dc7290",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Delete Account",
+              "fullTitle": "Demoqa books Testing Delete Account",
+              "timedOut": false,
+              "duration": 78,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await homePage.deleteAccount();",
+              "err": {},
+              "uuid": "b6fae393-477d-409a-bf39-dd9314ad6ab7",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Logout ",
+              "fullTitle": "Demoqa books Testing Logout ",
+              "timedOut": false,
+              "duration": 14,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "[\n  \"Test Fail Screenshot\",\n  \"/Users/onur/postman-test/selenium/testReports/ScreenShots/Logout 20241225125349.png\"\n]",
+              "code": "await homePage.logout();",
+              "err": {
+                "message": "ElementNotInteractableError: element not interactable\n  (Session info: chrome=131.0.6778.205)",
+                "estack": "ElementNotInteractableError: element not interactable\n  (Session info: chrome=131.0.6778.205)\n    at Object.throwDecodedError (node_modules/selenium-webdriver/lib/error.js:521:15)\n    at parseHttpResponse (node_modules/selenium-webdriver/lib/http.js:514:13)\n    at Executor.execute (node_modules/selenium-webdriver/lib/http.js:446:28)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Driver.execute (node_modules/selenium-webdriver/lib/webdriver.js:744:17)\n    at async HomePage.logout (pages/homePage.js:62:9)\n    at async Context.<anonymous> (test.js:76:5)",
+                "diff": null
+              },
+              "uuid": "4ec9180e-5e9c-42bf-abf1-179bbb2d3c98",
+              "parentUUID": "df1221c5-9639-4539-b491-55b76ac3b010",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8354c6ad-88f1-4bf5-9af0-d72ec9660866",
+            "f6bd23bf-5592-4377-a264-ba39d9c8eb8f",
+            "e2c09e1e-fd6d-4b99-a79b-d1db361e37d3",
+            "e8f4dabf-58cb-4821-8b1f-3add61dc7290",
+            "b6fae393-477d-409a-bf39-dd9314ad6ab7"
+          ],
+          "failures": [
+            "8e4432c2-1950-454a-97d5-8263cabbddfe",
+            "4ec9180e-5e9c-42bf-abf1-179bbb2d3c98"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 7498,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 60000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "report_2024-12-25_12-53-30.html",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "testReports/report_2024-12-25_12-53-30",
+        "reportFilename": "report_2024-12-25_12-53-30.html"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
