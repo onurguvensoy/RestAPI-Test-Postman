@@ -59,6 +59,7 @@ class HomePage {
     }
 
     async logout() {
+        await this.driver.executeScript('window.scrollTo(0, document.body.scrollHeight);');
         await this.driver.wait((until.elementLocated(this.logoutButton)),3000).click();
     }
 
