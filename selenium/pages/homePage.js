@@ -20,7 +20,7 @@ class HomePage {
     }
 
     async getBookTitles() {
-        await this.driver.wait((until.elementLocated(this.bookStoreButton)),10000).click();
+        await this.driver.executeScript('window.scrollBy(0, 500);');
         const bookTitleElements = await this.driver.findElements(By.css('.rt-tr-group .rt-td .action-buttons span a'));
         const bookTitles = [];
         for (let element of bookTitleElements) {
